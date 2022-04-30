@@ -1,26 +1,22 @@
 const express = require("express");
-const app = express();
-const path = require("path");
-const indexRoutes = require("./routes/index");
+
+var app = express()
+
+app.use(express.static('public'));
+
+// // Defining routes for the javascript and CSS
+// app.use('/css', express.static('/public/styles'));
+// app.use('/js', express.static('/public/scripts'))
+app.use('/assets', express.static('/public/assets'))
 
 
+// Defining route for sales page.
+app.use('/sales', express.static('/public/sales'));
 
-//middleware
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
-app.set("view engine", "ejs");
-// app.set('view engine', 'html');
-app.set("views", __dirname + "/views");
+// Defining route for contact us.
+app.use('/contact_us', express.static('/public/contact_us'));
 
-
-
-
-//routes
-app.use("/" , indexRoutes)
-
-
-//listen to PORT
-const PORT = 5000 || process.env.PORT;
-app.listen(PORT, () => {
-  console.log(`server started at ${PORT}`);
-});
+var server = app.listen(8080, function(){
+    var port = server.address().port;
+    console.log("Server started at http://localhost:%s", port);
+})
